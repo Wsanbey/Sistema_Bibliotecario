@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <title>Lista de usúarios</title>
+    <link rel="stylesheet" th:href="@{/bootstrap5.3/css/bootstrap.css}">
+    <script th:src="@{/bootstrap5.3/js/bootstrap.min.js}"></script>
+    <script th:src="@{/jquery-3.7.0/jquery-3.7.0.min.js}"></script>
+</head>
+<body>
+<div th:insert="fragmentos/publica-nav.html :: nav"></div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Lista de usúarios</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Nascimento</th>
+                    <th>E-mail</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if='${usuarios.empty}'>
+                    <td colspan="2">Sem usúarios</td>
+                </tr>
+                <tr th:each="usuario : ${usuarios}">
+                    <td><span th:text="${usuario.nome}">Nome</span></td>
+                    <td><span th:text="${usuario.cpf}">Cpf</span></td>
+                    <td><span th:text="${#dates.format(usuario.dataNascimento,'dd/MM/yyyy')}">Nascimento</span></td>
+                    <td><span th:text="${usuario.email}">E-mail</span></td>
+                    <td>
+                        <a class="btn btn-outline-danger btn-sm"
+                           th:href="@{/usuario/admin/apagar/{id}(id=${usuario.id})}"
+                           th:data-confirm-delete="|Você gostaria de apagar ${usuario.nome}?|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                            Apagar
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary btn-sm"
+                           th:href="@{/usuario/editar/{id}(id=${usuario.id})}">
+                            Editar </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
